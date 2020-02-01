@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>InstaPic</title>
+
+  <!-- Bootstrap core CSS-->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="bg-dark">
+
+  <div class="container">
+    <div class="text-center text-white" style="padding-top:10rem">
+      <h1>InstaPic <span class="badge badge-secondary">Pro!</span></h1>
+    </div>
+    <div class="card card-login mx-5 mt-3">
+      <div class="card-header text-center"><strong>Entrar</strong></div>
+      <div class="card-body">
+        {% if mostrar_error_login %}
+        <div class="text-center" style="padding-bottom:1rem">
+          <span class="d-block small mt-3 text-danger"><b>El Usuario No Existe</b></span>
+        </div>
+        {% endif %}
+        {% if next %}
+        <form action="/login?next={{next}}" method="post">
+          {% else %}
+          <form action="/login" method="post">
+            {% endif  %}
+            <div class="form-group">
+              <div class="form-label-group">
+                <input type="text" name="username" id="inputEmail" class="form-control" placeholder=""
+                  required="required" autofocus="autofocus">
+                <!--<label for="inputEmail">Email address</label>-->
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label-group">
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder=""
+                  required="required">
+                <!--<label for="inputPassword">Password</label>-->
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="remember-me">
+                  Recordar Password
+                </label>
+              </div>
+            </div>
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button class="btn btn-primary" type="submit">Entrar</button>
+              </div>
+            </div>
+            <div class="text-center">
+              <a class="d-block small mt-3" href="{% url 'core:registro' %}">Registrarse</a>
+            </div>
+            {% csrf_token %}
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+</body>
+
+</html>

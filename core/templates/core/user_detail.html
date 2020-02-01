@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class = "page-header">
+    <h1>
+        <span class="badge badge-dark">Perfil</span> 
+        <small><b>{{ object }}</b></small>
+    </h1>
+</div>
+<hr>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-primary" href="{% url 'core:actualizar' object.id %}">Editar</a>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-secondary" href="{% url 'core:index' %}">Timeline</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+        <img src="{{ object.imagen_perfil.url }}" alt="..." class="img-thumbnail">
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-info-circle"></i> Informacion Basica
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Usuario: </span></b>  {{ object.username }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Nombre Completo: </span></b>  {{ object }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Email: </span></b>  {{ object.email }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Usuario Desde: </span></b>  {{ object.date_joined }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Fecha Cumpleaños: </span></b>  {{ object.fecha_nacimiento }}
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                        <b><span class="font-weight-bold text-dark">Descripcion: </span></b>  {{ object.descripcion }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

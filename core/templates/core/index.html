@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <img src="{{ request.user.imagen_perfil.url }}" alt="..." class="img-thumbnail">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <b>{{ request.user }}</b>
+        {{ request.user.descripcion }}
+    </div>
+</div>
+{% endblock %}

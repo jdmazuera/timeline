@@ -1,0 +1,5 @@
+.vscode/settings.json
+*/static/*
+db.sqlite3
+*/__pycache__/*
+media/*
