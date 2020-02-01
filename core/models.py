@@ -6,7 +6,7 @@ from django.utils.timezone import now
 class User(AbstractUser):
 
     mobile = models.CharField(max_length=40,blank=True,null=True,verbose_name='Celular')
-    imagen_perfil = models.ImageField(upload_to = 'imagenes/',default='',verbose_name='Foto de Perfil',blank=False)
+    imagen_perfil = models.ImageField(upload_to = 'imagenes/',default='imagenes/no_image.png',verbose_name='Foto de Perfil',blank=False)
     descripcion = models.TextField(verbose_name='Descripción',default='',blank=False)
     fecha_nacimiento = models.DateField(verbose_name='Fecha Nacimiento',default=now)
 

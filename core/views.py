@@ -8,6 +8,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required,permission_required
 from core.models import User
 from django.urls import reverse_lazy
+from post.forms import PostForm,ComentarioForm
+from post.models import Post
 
 class LoginView(View):
     template_name = 'core/login.html'
@@ -63,10 +65,13 @@ class IndexView(View):
     template_name = 'core/index.html'
 
     def get(self,request,*args,**kwargs):
-        return render(request,self.template_name)
-
-    def post(self,request,*args,**kwargs):
-        return render(request,self.template_name)
+        posts = Post.objects.filter(privado=False)
+        form_comentario = ComentarioForm()
+        # form_comentario.helper.form_action = reverse_lazy('post:comentar')
+        return render(request,self.template_name,{
+            'posts' : posts,
+            'form_comentario' : form_comentario
+        })
 
 @method_decorator(login_required, name='dispatch')
 class LogoutView(View):

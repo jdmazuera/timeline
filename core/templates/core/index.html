@@ -1,4 +1,6 @@
 {% extends 'core/base.html' %}
+{% load indextags %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="row">
@@ -7,9 +9,123 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3  my-2">
         <b>{{ request.user }}</b>
         {{ request.user.descripcion }}
     </div>
 </div>
+{% for item in posts %}
+<div class="row mb-2">
+    <div class="card">
+        <div class="card-header">
+            {{ item.usuario }}
+        </div>
+        <div class="card-body">
+            <img src="{{ item.imagen.url }}" alt="..." class="img-thumbnail">
+            <hr>
+            <p class="lead">{{item.descripcion}}</p>
+            <hr>
+            <h5>Comentarios</h5>
+            {% with comentarios=item.id|obtener_comentarios %}
+            {% for comentario in comentarios %}
+            <small><b>{{ comentario.usuario }}</b>
+                <p>
+                    {{ comentario.mensaje }}
+                    <a data-toggle="modal" data-target="#exampleModalcomentario{{comentario.id}}" href="#">Responder</a>
+                </p>
+            </small>
+                {% with respuestas=comentario.id|obtener_respuestas %}
+                {% for respuesta in respuestas %}
+                <div class="pr-2">
+                    <small><b>{{ respuesta.usuario }}</b>
+                        <p>
+                            {{ respuesta.mensaje }}
+                        </p>
+                    </small>
+                </div>
+                {% endfor %}
+                {% endwith %}
+                <div class="modal fade" id="exampleModalcomentario{{comentario.id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel{{comentario.id}}">Comentario</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post"
+                                    action="{% url 'post:comentar' request.user.id item.id comentario.id %}">
+                                    <fieldset>
+                                        <div id="div_id_mensaje" class="form-group">
+                                            <label for="id_mensaje" class=" requiredField">
+                                                Comentario<span class="asteriskField">*</span>
+                                            </label>
+                                            <div class="">
+                                                <textarea name="mensaje" cols="40" rows="10" class="textarea form-control"
+                                                    required id="id_mensaje">
+                                    </textarea>
+                                            </div>
+                                        </div>
+                                        {% csrf_token %}
+                                    </fieldset>
+                                    <div class="buttonHolder">
+                                        <input type="submit" name="submit" value="Guardar"
+                                            class="btn btn-primary button white" id="submit-id-submit" />
+                                        <a class="btn btn-secondary" href="{% url 'core:index' %}">Cancelar</a></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% endwith %}
+        </div>
+        <div class="card-footer">
+            <div class="button-group">
+                <a class="btn btn-light" href="{% url 'post:like' request.user.id item.id %}">Like
+                    {% likes_counter item.id %}</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Comentar
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Comentario</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'post:comentar' request.user.id item.id %}">
+                    <fieldset>
+                        <div id="div_id_mensaje" class="form-group">
+                            <label for="id_mensaje" class=" requiredField">
+                                Comentario<span class="asteriskField">*</span>
+                            </label>
+                            <div class="">
+                                <textarea name="mensaje" cols="40" rows="10" class="textarea form-control" required
+                                    id="id_mensaje">
+                                </textarea>
+                            </div>
+                        </div>
+                        {% csrf_token %}
+                    </fieldset>
+                    <div class="buttonHolder">
+                        <input type="submit" name="submit" value="Guardar" class="btn btn-primary button white"
+                            id="submit-id-submit" />
+                        <a class="btn btn-secondary" href="{% url 'core:index' %}">Cancelar</a></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}
